@@ -1,0 +1,194 @@
+using System;
+using System.Text;
+
+Console.OutputEncoding = Encoding.UTF8;
+
+Console.Write("Введіть розмірність масиву: ");
+int n = int.Parse(Console.ReadLine());
+
+int[] array = new int[n];
+Random rnd = new Random();
+
+Console.WriteLine("Масив:");
+for (int i = 0; i < n; i++)
+{
+    array[i] = rnd.Next(1, 100); // Заповнюємо випадковими числами 1-99
+    Console.Write(array[i] + " ");
+}
+
+using System;
+using System.Text;
+
+// Налаштування для коректного відображення української мови
+Console.OutputEncoding = Encoding.UTF8;
+Console.InputEncoding = Encoding.UTF8;
+
+Console.Write("Введіть розмірність масиву (n): ");
+if (int.TryParse(Console.ReadLine(), out int n) && n > 0)
+{
+    double[] array = new double[n];
+    Random rnd = new Random();
+
+    Console.WriteLine("\nЗгенерований масив:");
+    for (int i = 0; i < n; i++)
+    {
+        // Генеруємо числа від -50.0 до 50.0
+        array[i] = Math.Round(rnd.NextDouble() * 100 - 50, 2);
+        Console.Write(array[i] + "  ");
+    }
+
+    // Пошук максимуму серед від'ємних
+    double? maxNegative = null; 
+
+    for (int i = 0; i < n; i++)
+    {
+        if (array[i] < 0) // Якщо елемент від'ємний
+        {
+            // Якщо це перший знайдений від'ємний або він більший за поточний максимум
+            if (maxNegative == null || array[i] > maxNegative)
+            {
+                maxNegative = array[i];
+            }
+        }
+    }
+
+    Console.WriteLine("\n\n----------------------------------");
+    if (maxNegative != null)
+    {
+        Console.WriteLine($"Максимум з від’ємних елементів: {maxNegative}");
+    }
+    else
+    {
+        Console.WriteLine("Від’ємних елементів у масиві не знайдено.");
+    }
+}
+else
+{
+    Console.WriteLine("Помилка: введіть коректне ціле число більше нуля.");
+}
+
+Console.WriteLine("\nНатисніть будь-яку клавішу для виходу...");
+Console.ReadKey();
+
+using System;
+using System.Text;
+
+// Вирішуємо проблему зі знаками питання
+Console.OutputEncoding = Encoding.UTF8;
+Console.InputEncoding = Encoding.UTF8;
+
+Console.Write("Введіть розмірність квадратної матриці n: ");
+if (int.TryParse(Console.ReadLine(), out int n) && n > 0)
+{
+    int[,] matrix = new int[n, n];
+    Random rnd = new Random();
+
+    // 1. Заповнюємо та виводимо початкову матрицю для наочності
+    Console.WriteLine("\nПочаткова матриця:");
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            matrix[i, j] = rnd.Next(10, 100); // Двозначні числа для красивої таблиці
+            Console.Write(matrix[i, j] + " ");
+        }
+        Console.WriteLine();
+    }
+
+    // 2. Вивід елементів "змійкою" за схемою
+    Console.WriteLine("\nЕлементи матриці за схемою (змійкою):");
+    for (int i = 0; i < n; i++)
+    {
+        if (i % 2 == 0)
+        {
+            // Парний рядок (0, 2, 4...) -> йдемо зліва направо
+            for (int j = 0; j < n; j++)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+        }
+        else
+        {
+            // Непарний рядок (1, 3, 5...) -> йдемо справа наліво
+            for (int j = n - 1; j >= 0; j--)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+        }
+    }
+    Console.WriteLine();
+}
+else
+{
+    Console.WriteLine("Помилка: введіть ціле число більше нуля.");
+}
+
+Console.WriteLine("\nНатисніть будь-яку клавішу для виходу...");
+Console.ReadKey();
+
+using System;
+using System.Text;
+using System.Linq;
+
+// Налаштування для відображення української мови
+Console.OutputEncoding = Encoding.UTF8;
+Console.InputEncoding = Encoding.UTF8;
+
+Console.Write("Введіть кількість рядків масиву (n): ");
+if (int.TryParse(Console.ReadLine(), out int n) && n > 0)
+{
+    // Створення східчастого масиву (масив масивів)
+    int[][] jaggedArray = new int[n][];
+    Random rnd = new Random();
+
+    Console.WriteLine("\nСгенерований східчастий масив:");
+    for (int i = 0; i < n; i++)
+    {
+        // Для кожного рядка генеруємо випадкову довжину від 2 до 6
+        int cols = rnd.Next(2, 7);
+        jaggedArray[i] = new int[cols];
+
+        for (int j = 0; j < cols; j++)
+        {
+            jaggedArray[i][j] = rnd.Next(1, 20);
+            Console.Write(jaggedArray[i][j] + "\t");
+        }
+        Console.WriteLine();
+    }
+
+    // Створюємо новий масив для збереження сум кожного рядка
+    int[] sumsArray = new int[n];
+
+    Console.WriteLine("\nСуми елементів кожного рядка:");
+    for (int i = 0; i < n; i++)
+    {
+        int rowSum = 0;
+        foreach (int item in jaggedArray[i])
+        {
+            rowSum += item;
+        }
+        sumsArray[i] = rowSum;
+        Console.WriteLine($"Рядок {i}: сума = {rowSum}");
+    }
+
+    // Знаходимо максимальний елемент у масиві сум
+    int maxSum = sumsArray[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (sumsArray[i] > maxSum)
+        {
+            maxSum = sumsArray[i];
+        }
+    }
+
+    Console.WriteLine($"\n--------------------------------------");
+    Console.WriteLine($"Максимальна сума серед усіх рядків: {maxSum}");
+}
+else
+{
+    Console.WriteLine("Помилка: введіть коректне число.");
+}
+
+Console.WriteLine("\nНатисніть будь-яку клавішу для виходу...");
+Console.ReadKey();
+
